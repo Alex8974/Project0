@@ -14,7 +14,7 @@ namespace Project0
         private SpriteBatch _spriteBatch;
 
         private SpriteFont font;
-        private String instructions = "To exit the game press the ESC key on the keyboard";
+        private String title = "Penguin Paradise";
 
         private KeyboardState currentKeyboardState;
         private KeyboardState priorKeyboardState;
@@ -32,7 +32,7 @@ namespace Project0
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            Window.Title = "Pengin Paradise";
+            Window.Title = "Pengin Paradise";            
             
         }
 
@@ -93,14 +93,16 @@ namespace Project0
             // TODO: Add your update logic here
             foreach (var f in fish) f.Update(gameTime);
 
-            #endregion
-
-            
+            #endregion            
 
             #region Move Penguin
 
             penguin.Update(gameTime, currentKeyboardState);
 
+            #endregion
+
+            #region 
+            bird.Update(gameTime);
             #endregion
 
             base.Update(gameTime);
@@ -117,8 +119,8 @@ namespace Project0
             foreach (Fish f in fish) f.Draw(gameTime, _spriteBatch);
             bird.Draw(gameTime, _spriteBatch);
             //_spriteBatch.DrawString(font, "" + gameTime.TotalGameTime.TotalSeconds.ToString(), new Vector2(700, 0), Color.Black);
-            _spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
-            _spriteBatch.DrawString(font, instructions, new Vector2(50, 50), Color.Black);
+            //_spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
+            _spriteBatch.DrawString(font, title, new Vector2(100, 100), Color.Black);
             _spriteBatch.End();
 
             base.Draw(gameTime);

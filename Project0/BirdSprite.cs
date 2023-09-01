@@ -16,7 +16,7 @@ namespace Project0
         private int frame = 1;
         private double animationTimer;
         private int direction = 1;
-        public Vector2 BirdPosition = new Vector2(300,300);
+        public Vector2 BirdPosition = new Vector2(-50,200);
         public Texture2D BirdTexture;
         
         public void LoadContent(ContentManager content)
@@ -27,7 +27,12 @@ namespace Project0
 
         public void Update(GameTime gameTime)
         {
-            
+            BirdPosition.X += 100 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if(BirdPosition.X > 950)
+            {
+                BirdPosition.X = -50;
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -45,7 +50,7 @@ namespace Project0
             }
 
             var source = new Rectangle(frame * 16, 16, 16, 16);
-            spriteBatch.Draw(BirdTexture, BirdPosition, source, Color.White, 0, new Vector2(64, 64), 2f, SpriteEffects.None, 0);
+            spriteBatch.Draw(BirdTexture, BirdPosition, source, Color.White, 0, new Vector2(64, 64), 2f, SpriteEffects.FlipHorizontally, 0);
         }
 
     }
