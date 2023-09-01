@@ -103,7 +103,7 @@ namespace Project0
 
             #endregion
 
-            #region 
+            #region Updates the bird
             bird.Update(gameTime);
             #endregion
 

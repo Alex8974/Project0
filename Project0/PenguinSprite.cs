@@ -11,24 +11,43 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Project0
 {
+    /// <summary>
+    /// class for the penguin sprite
+    /// </summary>
     public class PenguinSprite
     {
+        /// <summary>
+        /// the penguins position
+        /// </summary>
         public Vector2 PenguinPosition;
-        public Texture2D PenguinTexture;
+        
+        private Texture2D PenguinTexture;
         private bool jumpping = false;
         private int jumps = 0;
         private int magicNumber = 370;
         private int direction = 1;
 
+        /// <summary>
+        /// initilizes the penguins pposition
+        /// </summary>
         public void Initilize()
         {
             PenguinPosition = new Vector2(300, magicNumber);
         }
 
+        /// <summary>
+        /// loads the content of the penguin 
+        /// </summary>
+        /// <param name="content">the content manager being loaded in</param>
         public void loadContnet(ContentManager content)
         {
             PenguinTexture = content.Load<Texture2D>("Penguin3Good");
         }
+
+        /// <summary>
+        /// makes the penguin jump 
+        /// </summary>
+        /// <param name="gameTime">the time of the game</param>
         private void jump(GameTime gameTime)
         {
             PenguinPosition += new Vector2(0, -100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
@@ -44,6 +63,11 @@ namespace Project0
             }
         }
 
+        /// <summary>
+        /// updates the penguin 
+        /// </summary>
+        /// <param name="gameTime">the game time</param>
+        /// <param name="currentKeyboardState">the current keyboard states</param>
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState)
         {
             if (currentKeyboardState.IsKeyDown(Keys.Left) ||
