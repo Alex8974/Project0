@@ -46,7 +46,7 @@ namespace Project0
             rand = new Random();
             
 
-            font = Content.Load<SpriteFont>("Timer");
+            font = Content.Load<SpriteFont>("bangers");
             
 
             #region Penuin Setup
@@ -123,7 +123,8 @@ namespace Project0
             bird.Draw(gameTime, _spriteBatch);
             //_spriteBatch.DrawString(font, "" + gameTime.TotalGameTime.TotalSeconds.ToString(), new Vector2(700, 0), Color.Black);
             //_spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
-            _spriteBatch.DrawString(font, title, new Vector2(100, 100), Color.Navy);
+            _spriteBatch.DrawString(font, title, new Vector2(175, 100), Color.Navy);
+            _spriteBatch.DrawString(font, "Press 'ESC' to exit the game", new Vector2(10, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
             _spriteBatch.End();
 
             base.Draw(gameTime);
