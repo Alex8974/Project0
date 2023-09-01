@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.X3DAudio;
 using System;
 using System.Drawing.Printing;
 using System.Web;
@@ -22,6 +23,7 @@ namespace Project0
 
         private PenguinSprite penguin;
         private Fish[] fish;
+        private BirdSprite bird;
 
         
 
@@ -45,7 +47,6 @@ namespace Project0
             #region Penuin Setup
 
             penguin = new PenguinSprite();
-            penguin.PenguinTexture = Content.Load<Texture2D>("Penguin2");
 
             #endregion
 
@@ -53,11 +54,13 @@ namespace Project0
             fish = new Fish[2];
             fish[0] = new Fish();
             fish[1] = new Fish();
-            fish[0].FishTexture = Content.Load<Texture2D>("Fish");
-            fish[1].FishTexture = Content.Load<Texture2D>("FishPink20px");
+
             foreach (var f in fish) f.Initlize();
 
             #endregion
+
+            //bird.BirdTexture = Content.Load<Texture2D>("BirdSprite");
+
 
             base.Initialize();
         }
@@ -66,7 +69,11 @@ namespace Project0
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             
-
+            penguin.PenguinTexture = Content.Load<Texture2D>("Penguin2");
+            fish[0].FishTexture = Content.Load<Texture2D>("Fish");
+            fish[1].FishTexture = Content.Load<Texture2D>("FishPink20px");
+            //bird.LoadContent(Content);
+            bird.BirdTexture = Content.Load<Texture2D>("BirdSprite");
 
             // TODO: use this.Content to load your game content here
         }
@@ -106,6 +113,7 @@ namespace Project0
             _spriteBatch.Begin();       
             penguin.Draw(gameTime, _spriteBatch);
             foreach (Fish f in fish) f.Draw(gameTime, _spriteBatch);
+            //bird.Draw(gameTime, _spriteBatch);
             //_spriteBatch.DrawString(font, "" + gameTime.TotalGameTime.TotalSeconds.ToString(), new Vector2(700, 0), Color.Black);
             _spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
             _spriteBatch.DrawString(font, instructions, new Vector2(50, 50), Color.Black);
