@@ -19,7 +19,7 @@ namespace Project0
         public Vector2 FishDirection;
         public Texture2D FishTexture;
         private Random rand;
-        private int gameWindowHeight = 450;
+        private int gameWindowHeight = 480;
         private int gameWindowWidth = 800;
 
         public void Initlize()
@@ -27,8 +27,8 @@ namespace Project0
             rand = new Random();
 
             FishPosition = new Vector2(
-                800 / 2 + 100,
-                450 / 2 + 50
+                (float)rand.NextDouble(),
+                460
                 );
             FishDirection = new Vector2(
                 (float)rand.NextDouble(),
@@ -52,7 +52,7 @@ namespace Project0
                 FishDirection.X *= -1;
             }
 
-            if (FishPosition.Y < 0 ||
+            if (FishPosition.Y < 402 ||
                FishPosition.Y > gameWindowHeight - 20)
             {
                 FishDirection.Y *= -1;
@@ -64,7 +64,14 @@ namespace Project0
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(FishTexture, FishPosition, Color.White);
+            if(FishDirection.X < 0)
+            {
+                spriteBatch.Draw(FishTexture, FishPosition,null, Color.White, 0, new Vector2(0,0), 1f, SpriteEffects.FlipHorizontally, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(FishTexture, FishPosition, Color.White);
+            }
         }
 
 

@@ -25,6 +25,10 @@ namespace Project0
         private Fish[] fish;
         private BirdSprite bird;
 
+        private Texture2D background;
+
+        
+
         
 
         public Game1()
@@ -48,7 +52,7 @@ namespace Project0
             #region Penuin Setup
 
             penguin = new PenguinSprite();
-
+            penguin.Initilize();
             #endregion
 
             #region Setting up fish
@@ -62,20 +66,18 @@ namespace Project0
 
             bird = new BirdSprite();
 
-            //bird.BirdTexture = Content.Load<Texture2D>("BirdSprite");
-
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            penguin.PenguinTexture = Content.Load<Texture2D>("Penguin2");
+
+            penguin.loadContnet(Content);
             fish[0].FishTexture = Content.Load<Texture2D>("Fish");
             fish[1].FishTexture = Content.Load<Texture2D>("FishPink20px");
             bird.LoadContent(Content);
+            background = Content.Load<Texture2D>("Backgound3");
 
             // TODO: use this.Content to load your game content here
         }
@@ -114,13 +116,14 @@ namespace Project0
 
             // TODO: Add your drawing code here
 
-            _spriteBatch.Begin();       
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             penguin.Draw(gameTime, _spriteBatch);
             foreach (Fish f in fish) f.Draw(gameTime, _spriteBatch);
             bird.Draw(gameTime, _spriteBatch);
             //_spriteBatch.DrawString(font, "" + gameTime.TotalGameTime.TotalSeconds.ToString(), new Vector2(700, 0), Color.Black);
             //_spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
-            _spriteBatch.DrawString(font, title, new Vector2(100, 100), Color.Black);
+            _spriteBatch.DrawString(font, title, new Vector2(100, 100), Color.Navy);
             _spriteBatch.End();
 
             base.Draw(gameTime);
