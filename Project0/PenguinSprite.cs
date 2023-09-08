@@ -11,6 +11,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Project0
 {
+    enum Action
+    {
+        staning,
+        moving,
+        jumping,
+        diving
+    };
+
     /// <summary>
     /// class for the penguin sprite
     /// </summary>
@@ -22,8 +30,9 @@ namespace Project0
         public Vector2 PenguinPosition;
         
         private Texture2D PenguinTexture;
-        private bool jumpping = false;
+        private Action action;
         private int jumps = 0;
+        private int dive = 0;
         private int magicNumber = 370;
         private int direction = 1;
 
@@ -59,7 +68,22 @@ namespace Project0
             else
             {
                 jumps = 0;
-                jumpping = false;
+                action = Action.staning;
+            }
+        }
+
+        private void Dive(GameTime gameTime)
+        {
+            PenguinPosition += new Vector2(0, 100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            if (dive < 10)
+            {
+                dive++;
+            }
+            else
+            {
+                dive = 0;
+                action = Action.staning;
             }
         }
 
@@ -70,45 +94,69 @@ namespace Project0
         /// <param name="currentKeyboardState">the current keyboard states</param>
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState)
         {
+            //moves left
             if (currentKeyboardState.IsKeyDown(Keys.Left) ||
                currentKeyboardState.IsKeyDown(Keys.A))
             {
                 PenguinPosition += new Vector2(-100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                 direction = 2;
+                
             }
+
+            //moves right
             if (currentKeyboardState.IsKeyDown(Keys.Right) ||
                currentKeyboardState.IsKeyDown(Keys.D))
             {
                 PenguinPosition += new Vector2(100 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
                 direction = 1;
+                
             }
+
+            #region Jump Controlls
+
+            // sets action to jumping
             if ( PenguinPosition.Y >= magicNumber &&
                (currentKeyboardState.IsKeyDown(Keys.Up) ||
                currentKeyboardState.IsKeyDown(Keys.W) || 
                currentKeyboardState.IsKeyDown(Keys.Space)))
             {
-                jumpping = true;
+                action = Action.jumping;
             }
 
-            if(jumpping == true)
+            // triggers the jump action
+            if(action == Action.jumping)
             {
                 jump(gameTime);
             }
-            //if (currentKeyboardState.IsKeyDown(Keys.Down) ||
-            //   currentKeyboardState.IsKeyDown(Keys.S))
-            //{
-            //    PenguinPosition += new Vector2(0, 100 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-            //}
-            if(PenguinPosition.Y < magicNumber && jumpping == false)
+
+            #endregion
+
+            if ( 1 >= Math.Abs(magicNumber - PenguinPosition.Y) &&
+                currentKeyboardState.IsKeyDown(Keys.Down) ||
+               currentKeyboardState.IsKeyDown(Keys.S))
             {
-                PenguinPosition.Y += 1;
+                action = Action.diving;
+            }
+
+            if (action == Action.diving)
+            {
+                if(dive == 0) PenguinPosition.Y = magicNumber+32;
+                Dive(gameTime);
+            }
+
+            // checks to make sure you can jump or dive
+            if (action != Action.jumping && action != Action.diving)
+            {
+                if (PenguinPosition.Y < magicNumber) PenguinPosition.Y += 1;
+                else PenguinPosition.Y -= 1;           
             }
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
-            if(direction == 1) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
-            if(direction == 2) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipHorizontally, 0);
+            if(direction == 1 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            if(direction == 2 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipHorizontally, 0);
+            if(action == Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipVertically, 0);
         }
     }
 }
