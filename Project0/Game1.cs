@@ -28,6 +28,7 @@ namespace Project0
 
         private Texture2D background;
         private int fishCollected = 0;
+        private int birdsSeen = 1;
 
         
 
@@ -64,7 +65,7 @@ namespace Project0
 
             #endregion
 
-            birds.Add(new BirdSprite(Content));
+            birds.Add(new BirdSprite(Content, 200));
 
             base.Initialize();
         }
@@ -107,7 +108,12 @@ namespace Project0
             #endregion
 
             #region Updates the bird
-            //if (fishCollected % 100 == 0 && fishCollected > 0) birds.Add(new BirdSprite(Content));
+            if (fishCollected % 100 == 0 && fishCollected > 0)
+            {
+                fishCollected = 0;
+                birds.Add(new BirdSprite(Content, rand.Next(100, 450)));
+                birdsSeen++;
+            }
             foreach(var b in birds) b.Update(gameTime);
             #endregion
 
@@ -149,8 +155,8 @@ namespace Project0
             //_spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
             _spriteBatch.DrawString(font, title, new Vector2(175, 100), Color.Navy);
             _spriteBatch.DrawString(font, "Press 'ESC' to exit the game", new Vector2(10, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
-            _spriteBatch.DrawString(font, $"Fish collected: {fishCollected}", new Vector2(500, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
-            _spriteBatch.DrawString(font, $"Birds seen: {fishCollected}", new Vector2(500, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(font, $"Fish collected: {fishCollected + ((birdsSeen - 1)*100)}", new Vector2(500, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(font, $"Birds seen: {birdsSeen}", new Vector2(500, 30), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
             _spriteBatch.DrawString(font, "Press 'f' to summon more fish", new Vector2(200, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
             _spriteBatch.End();
 

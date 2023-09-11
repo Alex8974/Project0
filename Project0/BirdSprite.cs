@@ -16,12 +16,13 @@ namespace Project0
         private int frame = 1;
         private double animationTimer;
         private int direction = 1;
-        public Vector2 BirdPosition = new Vector2(-50,200);
+        public Vector2 BirdPosition;
         public Texture2D BirdTexture;
         
-        public BirdSprite(ContentManager content)
+        public BirdSprite(ContentManager content, int posY)
         {
             BirdTexture = content.Load<Texture2D>("BirdSprite");
+            BirdPosition = new Vector2(-50, posY);
         }
 
         public void LoadContent(ContentManager content)
