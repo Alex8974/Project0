@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.X3DAudio;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Web;
 
@@ -22,10 +23,11 @@ namespace Project0
         private Random rand;
 
         private PenguinSprite penguin;
-        private Fish[] fish;
-        private BirdSprite bird;
+        private List<Fish>  fish = new List<Fish>();
+        private List<BirdSprite> birds = new List<BirdSprite>();
 
         private Texture2D background;
+        private int fishCollected = 0;
 
         
 
@@ -56,15 +58,13 @@ namespace Project0
             #endregion
 
             #region Setting up fish
-            fish = new Fish[2];
-            fish[0] = new Fish();
-            fish[1] = new Fish();
-
+            fish.Add(new Fish(Content));
+            fish.Add(new Fish(Content));
             foreach (var f in fish) f.Initlize();
 
             #endregion
 
-            bird = new BirdSprite();
+            birds.Add(new BirdSprite(Content));
 
             base.Initialize();
         }
@@ -74,9 +74,8 @@ namespace Project0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             penguin.loadContnet(Content);
-            fish[0].FishTexture = Content.Load<Texture2D>("Fish");
-            fish[1].FishTexture = Content.Load<Texture2D>("FishPink20px");
-            bird.LoadContent(Content);
+            foreach (var f in fish) f.FishTexture = Content.Load<Texture2D>("fishSpriteSheet");
+            foreach (var b in birds) b.LoadContent(Content);
             background = Content.Load<Texture2D>("Backgound3");
 
             // TODO: use this.Content to load your game content here
@@ -92,8 +91,12 @@ namespace Project0
 
             #region Move Fish
 
-            // TODO: Add your update logic here
-            foreach (var f in fish) f.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.F))
+            {
+                fish.Add(new Fish(Content));
+            }
+
+            foreach (var f in fish) f.Update(gameTime, penguin.PenguinPosition);
 
             #endregion            
 
@@ -104,8 +107,28 @@ namespace Project0
             #endregion
 
             #region Updates the bird
-            bird.Update(gameTime);
+            //if (fishCollected % 100 == 0 && fishCollected > 0) birds.Add(new BirdSprite(Content));
+            foreach(var b in birds) b.Update(gameTime);
             #endregion
+
+            #region Penguin Fish Collision
+
+            penguin.color = Color.White;
+
+            foreach (var f in fish)
+            {
+                if (!f.Collected && f.Bounds.CollidesWith(penguin.Bounds))
+                {
+                    f.Collected = true;
+                    fishCollected++;
+                    penguin.color = Color.Red;
+                }
+
+            }
+
+            #endregion
+
+
 
             base.Update(gameTime);
         }
@@ -113,6 +136,7 @@ namespace Project0
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
 
             // TODO: Add your drawing code here
 
@@ -120,11 +144,14 @@ namespace Project0
             _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             penguin.Draw(gameTime, _spriteBatch);
             foreach (Fish f in fish) f.Draw(gameTime, _spriteBatch);
-            bird.Draw(gameTime, _spriteBatch);
+            foreach (var b in birds) b.Draw(gameTime, _spriteBatch);
             //_spriteBatch.DrawString(font, "" + gameTime.TotalGameTime.TotalSeconds.ToString(), new Vector2(700, 0), Color.Black);
             //_spriteBatch.DrawString(font, GraphicsDevice.Viewport.Width + " "+ GraphicsDevice.Viewport.Height, new Vector2(700, 0), Color.Black);
             _spriteBatch.DrawString(font, title, new Vector2(175, 100), Color.Navy);
             _spriteBatch.DrawString(font, "Press 'ESC' to exit the game", new Vector2(10, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(font, $"Fish collected: {fishCollected}", new Vector2(500, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(font, $"Birds seen: {fishCollected}", new Vector2(500, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(font, "Press 'f' to summon more fish", new Vector2(200, 10), Color.Black, 0, new Vector2(0,0), 0.2f, SpriteEffects.None, 0);
             _spriteBatch.End();
 
             base.Draw(gameTime);

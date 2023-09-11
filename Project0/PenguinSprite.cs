@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CollisionExample.Collisions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,11 +37,16 @@ namespace Project0
         private int magicNumber = 370;
         private int direction = 1;
 
+        private BoundingRectangle bounds;
+        public BoundingRectangle Bounds => bounds;
+        public Color color = Color.White;
+
         /// <summary>
         /// initilizes the penguins pposition
         /// </summary>
         public void Initilize()
         {
+            this.bounds = new BoundingRectangle(PenguinPosition, 32, 30);
             PenguinPosition = new Vector2(300, magicNumber);
         }
 
@@ -150,13 +156,16 @@ namespace Project0
                 if (PenguinPosition.Y < magicNumber) PenguinPosition.Y += 1;
                 else PenguinPosition.Y -= 1;           
             }
+
+            bounds.X = PenguinPosition.X;
+            bounds.Y = PenguinPosition.Y;
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
-            if(direction == 1 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
-            if(direction == 2 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipHorizontally, 0);
-            if(action == Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, Color.White, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipVertically, 0);
+            if(direction == 1 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
+            if(direction == 2 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipHorizontally, 0);
+            if(action == Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipVertically, 0);
         }
     }
 }

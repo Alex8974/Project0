@@ -19,6 +19,11 @@ namespace Project0
         public Vector2 BirdPosition = new Vector2(-50,200);
         public Texture2D BirdTexture;
         
+        public BirdSprite(ContentManager content)
+        {
+            BirdTexture = content.Load<Texture2D>("BirdSprite");
+        }
+
         public void LoadContent(ContentManager content)
         {
             BirdTexture = content.Load<Texture2D>("BirdSprite");
