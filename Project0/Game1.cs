@@ -108,10 +108,10 @@ namespace Project0
             #endregion
 
             #region Updates the bird
-            if (fishCollected % 100 == 0 && fishCollected > 0)
+            if (fishCollected >= 100)
             {
                 fishCollected = 0;
-                birds.Add(new BirdSprite(Content, rand.Next(100, 450)));
+                birds.Add(new BirdSprite(Content, rand.Next(100, 400)));
                 birdsSeen++;
             }
             foreach(var b in birds) b.Update(gameTime);
@@ -135,15 +135,12 @@ namespace Project0
             #endregion
 
 
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            
-
+            GraphicsDevice.Clear(Color.CornflowerBlue);           
             // TODO: Add your drawing code here
 
             _spriteBatch.Begin();

@@ -137,6 +137,7 @@ namespace Project0
 
             #endregion
 
+
             if ( 1 >= Math.Abs(magicNumber - PenguinPosition.Y) &&
                 currentKeyboardState.IsKeyDown(Keys.Down) ||
                currentKeyboardState.IsKeyDown(Keys.S))

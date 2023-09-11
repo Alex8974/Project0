@@ -47,7 +47,7 @@ namespace Project0
 
             FishPosition = new Vector2(
                 (float)rand.NextDouble(),
-                460
+                430
                 );
             FishDirection = new Vector2(-1, 1);
         }
@@ -74,13 +74,13 @@ namespace Project0
             }
 
             if (FishPosition.X < 0 ||
-               FishPosition.X > gameWindowWidth - 20) //to keep the ball totally on the scren you must account for the width of the ball
+               FishPosition.X > gameWindowWidth - 32) //to keep the ball totally on the scren you must account for the width of the ball
             {
                 FishDirection.X *= -1;
             }
 
             if (FishPosition.Y < 402 ||
-               FishPosition.Y > gameWindowHeight - 20)
+               FishPosition.Y > gameWindowHeight - 32)
             {
                 FishDirection.Y *= -1;
             }
