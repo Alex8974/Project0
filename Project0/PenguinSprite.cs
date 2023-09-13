@@ -14,7 +14,7 @@ namespace Project0
 {
     enum Action
     {
-        staning,
+        standing,
         moving,
         jumping,
         diving
@@ -34,12 +34,17 @@ namespace Project0
         private Action action;
         private int jumps = 0;
         private int dive = 0;
-        private int magicNumber = 370;
+        private float magicNumber = 370;
         private int direction = 1;
+        private float size = 0.5f;
+        private float pheight = 30;
+        private float growthrate = 0.01f;
+
 
         private BoundingRectangle bounds;
         public BoundingRectangle Bounds => bounds;
         public Color color = Color.White;
+        public int FishCollected;
 
         /// <summary>
         /// initilizes the penguins pposition
@@ -74,7 +79,7 @@ namespace Project0
             else
             {
                 jumps = 0;
-                action = Action.staning;
+                action = Action.standing;
             }
         }
 
@@ -89,7 +94,7 @@ namespace Project0
             else
             {
                 dive = 0;
-                action = Action.staning;
+                action = Action.standing;
             }
         }
 
@@ -100,6 +105,8 @@ namespace Project0
         /// <param name="currentKeyboardState">the current keyboard states</param>
         public void Update(GameTime gameTime, KeyboardState currentKeyboardState)
         {
+
+            #region left right movement
             //moves left
             if (currentKeyboardState.IsKeyDown(Keys.Left) ||
                currentKeyboardState.IsKeyDown(Keys.A))
@@ -117,6 +124,7 @@ namespace Project0
                 direction = 1;
                 
             }
+            #endregion
 
             #region Jump Controlls
 
@@ -147,26 +155,34 @@ namespace Project0
 
             if (action == Action.diving)
             {
-                if(dive == 0) PenguinPosition.Y = magicNumber+32;
+                if(dive == 0) PenguinPosition.Y = magicNumber + pheight;
                 Dive(gameTime);
             }
 
             // checks to make sure you can jump or dive
             if (action != Action.jumping && action != Action.diving)
             {
-                if (PenguinPosition.Y < magicNumber) PenguinPosition.Y += 1;
+                if (PenguinPosition.Y < magicNumber -30+ pheight) PenguinPosition.Y += 1;
                 else PenguinPosition.Y -= 1;           
             }
-
             bounds.X = PenguinPosition.X;
             bounds.Y = PenguinPosition.Y;
         }
 
         public void Draw(GameTime gametime, SpriteBatch spriteBatch)
         {
-            if(direction == 1 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.None, 0);
-            if(direction == 2 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipHorizontally, 0);
-            if(action == Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), 0.5f, SpriteEffects.FlipVertically, 0);
+            
+            //for(int i = 0; i < FishCollected; i++)
+            //{
+            //    size += growthrate;
+
+            //}
+            //FishCollected = 0;
+            
+
+            if (direction == 1 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), size, SpriteEffects.None, 0);
+            if(direction == 2 && action != Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), size, SpriteEffects.FlipHorizontally, 0);
+            if(action == Action.diving) spriteBatch.Draw(PenguinTexture, PenguinPosition, null, color, 0, new Vector2(0, 0), size, SpriteEffects.FlipVertically, 0);
         }
     }
 }

@@ -126,8 +126,9 @@ namespace Project0
                 if (!f.Collected && f.Bounds.CollidesWith(penguin.Bounds))
                 {
                     f.Collected = true;
+                    penguin.FishCollected++;
                     fishCollected++;
-                    penguin.color = Color.Red;
+                    penguin.color = Color.Green;
                 }
 
             }
@@ -140,7 +141,8 @@ namespace Project0
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);           
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            
             // TODO: Add your drawing code here
 
             _spriteBatch.Begin();
