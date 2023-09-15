@@ -147,8 +147,9 @@ namespace Project0
 
 
             if ( 1 >= Math.Abs(magicNumber - PenguinPosition.Y) &&
-                currentKeyboardState.IsKeyDown(Keys.Down) ||
-               currentKeyboardState.IsKeyDown(Keys.S))
+                currentKeyboardState.IsKeyDown(Keys.Down) 
+                || currentKeyboardState.IsKeyDown(Keys.S)
+               )
             {
                 action = Action.diving;
             }
